@@ -2,9 +2,37 @@
 This project explain Builder Design Pattern in Java. The Builder Pattern is a creational design pattern that allows step-by-step construction of complex objects. It is particularly useful when an object has numerous optional fields or when the construction process involves complex logic.
 
 ##### Benefits of the Builder Pattern
-> Clarity: Construction code is more readable and easier to maintain.
-> Flexibility: Allows the addition of optional parameters without altering the class constructor.
-> Control: Ensures that the object is always in a valid state by using the builder.
+* Clarity: Construction code is more readable and easier to maintain.
+* Flexibility: Allows the addition of optional parameters without altering the class constructor.
+* Control: Ensures that the object is always in a valid state by using the builder.
+
+#### Problem with Traditional Constructor Approach
+In traditional object creation using constructors, this class has multiple properties, especially with optional parameters like last name (lName), you might end up with several constructor overloads to handle various combinations of required and optional parameters or mark optional parameter as null . 
+This makes the code cumbersome and less readable.
+* ```public EmployeePojo(int id, String fName, String lName, String gender, int age, double salary) { .... ```
+
+#### Drawbacks of This Approach
+* Redundancy: You must pass null or default values for optional parameters even if they are not relevant.
+* Readability: It's hard to understand what null or 0 represents just by looking at the constructor call.
+* Extensibility: Adding new optional parameters means creating additional constructors, leading to constructor overloading and bloated code.
+
+### How the Builder Pattern Solves This Problem
+The Builder Pattern eliminates the need to pass null or default values for unused optional properties by allowing you to construct an object step-by-step using method chaining. This makes the code cleaner, more readable, and easier to maintain.
+
+Here’s how it works:
+
+Only the required fields are passed to the builder during its initialization.
+Optional fields can be set using dedicated methods that are self-explanatory.
+If an optional field is not set, it automatically takes a default value or remains unset.
+Like
+* ``` EmployeePojo objeFromBuildePattern = 	new EmployeePojo.Builder().id(1).fName("george").salary(23.56).build();```  <br />
+ Here I only want to create a employee objcet with Id, FirstName and Salary rest I omitted. 
+ 
+ 
+#### Advantages:
+You don’t need to pass irrelevant or unused fields like null or 0.
+Each method explicitly indicates what field it sets, improving readability.
+The builder enforces a clean separation between mandatory and optional fields.
 
 ##### Screenshot of the Full code 
 Builder Pattern in Action
@@ -23,8 +51,6 @@ public class EmployeePojo {
 		System.out.println("This is print message from EmployeePojo class");
 	}
 
-	//Even though few prop is not required to create a object of this class we need to pass at least null. 
-	// To void it we can use builder pattern 
 	public EmployeePojo(int id, String fName, String lName, String gender, int age, double salary) {
 		super();
 		this.id = id;
